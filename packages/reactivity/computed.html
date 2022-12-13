@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script src="../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+    <script src="./dist/reactivity.global.js"></script>
+
+    <div id="app"></div>
+    <script>
+      let waiting = false
+      // effect 副作用函数 函数依赖数据发生变化了 会重新执行
+      // reactive  将数据变成响应式 proxy
+      const { effect, reactive, computed } = VueReactivity
+      const state = reactive({ flag: true, name: 'lqr', age: '19', friends: { name: 'jack' } })
+
+      const userInfo = computed(() => {
+        console.log('render')
+        return state.name + state.age
+      })
+      debugger
+      effect(() => {
+        app.innerHTML = userInfo.value
+      })
+
+      // const userInfo = computed({
+      //   get () {
+      //     return state.name + state.age
+      //   },
+      //   set (newValue) {
+      //     // console.log(newValue)
+      //     debugger
+      //     state.name = newValue
+      //   }
+      // })
+      
+      // effect(() => {
+      //   app.innerHTML = userInfo.value
+      // })
+
+      setTimeout(() => {
+        // state.name = 'rql'
+        state.name  = 'asdfasdf'
+      }, 1000)
+      // console.log(userInfo)
+
+
+      // computed 内部判断 传入的是 函数 ，还是对象 
+      // 执行 new ComputedRefImpl 进行依赖收集和对computed 进行依赖收集
+
+    </script>
+  </body>
+</html>

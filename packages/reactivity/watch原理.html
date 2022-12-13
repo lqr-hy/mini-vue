@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script src="../../node_modules/vue/dist/vue.global.js"></script> -->
+    <script src="./dist/reactivity.global.js"></script>
+
+    <div id="app"></div>
+    <script>
+      const { effect, reactive, watch } = VueReactivity
+      const state = reactive({
+        flag: true,
+        name: 'lqr',
+        age: '19',
+        friends: { name: 'jack' }
+      })
+      // watch的本质就是 effect 加上一个记录新旧值
+      // watch(() => state.friends,
+      //   (newValue, oldValue) => {
+      //     console.log(newValue, oldValue)
+      //   }
+      // )
+
+      // state.friends = false
+
+      const getDate = (timer) => {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(timer)
+          }, timer)
+        })
+      }
+
+      let i = 2000
+      // watch 处理请求
+      watch(
+        () => state.age,
+        async (newValue, oldValue, onCleanup) => {
+          let clear = false
+          onCleanup(() => {
+            clear = true
+          })
+          i -= 1000
+          const res = await getDate(i)
+          if (!clear) {
+            app.innerHTML = res
+          }
+        },
+        {
+          flush: 'sync'
+        }
+      )
+      state.age = 20
+      state.age = 30
+    </script>
+  </body>
+</html>

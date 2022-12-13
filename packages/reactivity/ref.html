@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <script src="../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+    <script src="./dist/reactivity.global.js"></script>
+
+    <div id="app"></div>
+    <script>
+      const { effect, reactive, ref, toRefs, proxyRefs } = VueReactivity
+      // const res = ref(false)
+
+      // effect(() => {
+      //   app.innerHTML = res.value ? 'AA' : 'BB'
+      // })
+
+      // setTimeout(() => {
+      //   res.value = true
+      // }, 2000)
+      // console.log(res)
+
+      // const res = reactive({ name: 'lqr', age: 19 })
+
+      // const { name, age } = toRefs(res)
+
+      // effect(() => {
+      //   app.innerHTML = name.value  + age.value
+      // })
+
+      // setTimeout(() => {
+      //   name.value = 'hhh'
+      // }, 1000)
+      // console.log(res)
+
+      let age = ref(29)
+      let name = ref('lqr')
+
+      const res = proxyRefs({ age, name })
+
+      effect(() => {
+        app.innerHTML = res.age + res.name
+      })
+    </script>
+  </body>
+</html>
